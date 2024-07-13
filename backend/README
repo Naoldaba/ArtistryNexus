@@ -1,0 +1,22 @@
+### README>>>>
+
+1. Clone the repository:
+   -open your terminal
+   -git clone https://github.com/Naoldaba/ArtistryNexus.git
+   -cd backend
+
+2. Install Dependencies
+    -npm install
+
+3. Setup environmental variables
+    -create .env file
+    -add the following environment-specific variables on new lines in the form of NAME=VALUE
+          -PORT = 5050
+          -SECRET_KEY = bombastic sideeye
+          -CONNECTION_URL = mongodb://0.0.0.0:27017/ArtistryNexus
+
+4. Running the app
+    -npm start
+
+5. I generated API documentation using swagger, it can be accessed at:
+    -http://localhost:5050/api-docs
