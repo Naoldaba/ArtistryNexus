@@ -14,7 +14,6 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
     },
     isSubscribed: {
         type: Boolean,
@@ -42,6 +41,10 @@ const userSchema = mongoose.Schema({
     profilePicture: {
         type: String,
         default: `http://localhost:${process.env.PORT}/public/images/no_profile_pic.png`
+    },
+    googleId: {
+        type: String,
+        default: null
     },
 });
 

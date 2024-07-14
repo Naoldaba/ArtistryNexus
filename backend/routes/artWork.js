@@ -4,6 +4,8 @@ import upload from '../middleware/fileUpload.js';
 import {createArtWork, search, myArtWork, updateArtWork, deleteArtWork, like, report, allArtWorks} from '../controllers/artWork.js';
 import { createComment, deleteComment, editComment } from '../controllers/comment.js';
 
+
+console.log("port", process.env.PORT)
 const router = express.Router();
 
 /**

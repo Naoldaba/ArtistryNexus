@@ -29,6 +29,7 @@ const upload = multer({
     },
     limits: {
         fileSize: (req, file, cb) => {
+            console.log('hi')
             cb(null, req.fileSizeLimit);
         }
     }

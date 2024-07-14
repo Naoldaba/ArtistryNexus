@@ -10,22 +10,16 @@ const auth = async (req, res, next) => {
 
         if (!token) return res.status(401).send("You are Unauthorized");
 
-        const isCustomToken = token.length < 500;
+        const payload = jwt.verify(token, process.env.SECRET_KEY);
+        req.userID = payload.id;
 
-        let payload;
-        if (token && isCustomToken) {
-            payload = jwt.verify(token, process.env.SECRET_KEY);
-            req.userID = payload.id;
-        } else {
-            payload = jwt.decode(token);
-            req.userID = payload.sub;
-        }
         next();
     
     } catch (error) {
-        console.log('error verifying/decoding the token');
-        return res.json({"message": "error decoding the token"});
+        console.error('Error verifying/decoding the token:', error);
+        return res.status(401).json({ message: "Error decoding the token" });
     }
 }
 
 export default auth;
+
