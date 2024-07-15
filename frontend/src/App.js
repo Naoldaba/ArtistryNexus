@@ -1,10 +1,20 @@
 import Typography from '@mui/material/Typography'
+import {BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import Home from './pages/Home';
+import Navbar from './components/Navbar';
+import Layout from './components/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <Typography variant="h1" color="initial"> Hello Artists</Typography>
-    </div>
+    <Router>
+      <Routes>
+        <Route element={<Layout />}> 
+          <Route path='/' element={<Home />} />
+
+        </Route>
+
+      </Routes>
+    </Router>
   );
 }
 
