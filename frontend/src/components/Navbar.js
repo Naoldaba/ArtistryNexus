@@ -18,7 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { styled, alpha } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import logo from '../resources/images/artistryNexusLogo.png'
 import { useNavigate } from 'react-router-dom';
 
@@ -138,6 +138,7 @@ const Navbar = () => {
             alt={"logo"}
             src={logo}
             />
+            <Typography variant="h5" sx={{mr: '30px', color:"purple"}}>Artistry Nexus</Typography>
           <StyledButton color="inherit">Shop</StyledButton>
           <Search>
             <SearchIconWrapper>
