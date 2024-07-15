@@ -33,7 +33,7 @@ const Footer = () => {
               <img src={logo} alt="Company Logo" width={50} height={50} />
               <Typography variant="h6" sx={{ ml: '2px', }}>Artistry Nexus</Typography>
             </Box>
-            <Typography variant="body2">© 2024 Sample Company. <br /> All rights reserved.</Typography>
+            <Typography variant="body2">© 2024 Artistry Nexus. <br /> All rights reserved.</Typography>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <Typography variant="h6">Quick Links</Typography>
