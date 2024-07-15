@@ -20,6 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { styled, alpha } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import logo from '../resources/images/artistryNexusLogo.png'
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -88,6 +89,7 @@ const StyledDrawer = styled(Drawer)({
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate()
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -147,8 +149,8 @@ const Navbar = () => {
             />
           </Search>
           <div style={{ flexGrow: 1 }} />
-          <StyledButton color="inherit">Sign Up</StyledButton>
-          <StyledButton color="inherit">Login</StyledButton>
+          <StyledButton onClick={() => navigate('/signup')} color="inherit">Sign Up</StyledButton>
+          <StyledButton onClick={() => navigate('/login')} color="inherit">Login</StyledButton>
           <IconButton
             edge="end"
             color="inherit"
