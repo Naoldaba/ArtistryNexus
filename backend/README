@@ -14,6 +14,11 @@
           -PORT = 5050
           -SECRET_KEY = bombastic sideeye
           -CONNECTION_URL = mongodb://0.0.0.0:27017/ArtistryNexus
+          -GOOGLE_CLIENT_ID = //from google console
+          -GOOGLE_CLIENT_SECRET = //from google console
+          -SESSION_KEY = //anything
+          -EMAIL = //host email to send OTP 
+          -PASSWORD =  // App password for the above email      
 
 4. Running the app
     -npm start

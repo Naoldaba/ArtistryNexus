@@ -1,5 +1,5 @@
 import express from 'express';
-import { googleAuth, signin, signup } from '../controllers/auth.js';
+import { forgotPassword, googleAuth, resetPassword, signin, signup, verifyOTP } from '../controllers/auth.js';
 import { uploadSizeLimit } from '../middleware/fileSizeLimit.js';
 import upload from '../middleware/fileUpload.js';
 import passport from 'passport';
@@ -137,6 +137,172 @@ router.post('/signup', uploadSizeLimit, upload.single('profilePicture'), signup)
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 router.get('/authenticated', passport.authenticate('google'), googleAuth);
+
+
+/**
+ * @swagger
+ * /auth/forgot-password:
+ *   patch:
+ *     summary: Request a password reset OTP
+ *     tags: [Auth]
+ *     description: This endpoint allows users to request an OTP for password reset. The OTP is sent to the user's email and is valid for 1 hour.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email address of the user requesting the password reset.
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully to the user's email.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: email sent successfully
+ *       404:
+ *         description: User not found or error occurred while sending email.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User not found
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: something went wrong
+ */
+router.patch('/forgot-password', forgotPassword);
+
+/**
+ * @swagger
+ * /auth/verify-otp:
+ *   patch:
+ *     summary: Verify OTP for password reset
+ *     tags: [Auth]
+ *     description: Verifies the OTP sent to the user's email for password reset.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email address of the user.
+ *                 example: user@example.com
+ *               otp:
+ *                 type: string
+ *                 description: The OTP sent to the user's email.
+ *                 example: 1a2b3c
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: OTP verified successfully
+ *       400:
+ *         description: Invalid or expired OTP.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Invalid or expired OTP
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
+router.patch('/verify-otp', verifyOTP);
+
+
+/**
+ * @swagger
+ * /auth/reset-password:
+ *   patch:
+ *     summary: Reset user password
+ *     tags: [Auth]
+ *     description: This endpoint allows users to reset their password.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: The email address of the user.
+ *                 example: user@example.com
+ *               newPassword:
+ *                 type: string
+ *                 description: The new password for the user.
+ *                 example: newpassword123
+ *     responses:
+ *       200:
+ *         description: Password reset successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Password reset successfully
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User not found
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
+router.patch('/reset-password', resetPassword);
 
 
 export default router;
