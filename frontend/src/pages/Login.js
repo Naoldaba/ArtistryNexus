@@ -81,6 +81,24 @@ const Login = () => {
               variant="outlined"
               label="Email"
               type="email"
+              required
+                InputProps={{
+                sx: {
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'purple',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'purple',
+                    },
+                },
+                }}
+                InputLabelProps={{
+                sx: {
+                    '&.Mui-focused': {
+                    color: 'purple',
+                    },
+                },
+                }}
             />
             <TextField
               fullWidth
@@ -88,6 +106,24 @@ const Login = () => {
               variant="outlined"
               label="Password"
               type="password"
+              required
+                InputProps={{
+                sx: {
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'purple',
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'purple',
+                    },
+                },
+                }}
+                InputLabelProps={{
+                sx: {
+                    '&.Mui-focused': {
+                    color: 'purple',
+                    },
+                },
+                }}
             />
             
             <Button

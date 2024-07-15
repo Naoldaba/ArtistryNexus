@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Layout from './components/Layout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Landing from './pages/Landing';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
 
         <Route element={<Layout />}> 
           <Route path='/' element={<Home />} />
+          <Route path='/profile' element={<Landing />} />
+
 
         </Route>
 
