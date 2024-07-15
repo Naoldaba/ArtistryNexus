@@ -34,7 +34,8 @@ const artWorkSchema = mongoose.Schema({
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    premiumExp: { type: Date }
 })
 
 

@@ -1,6 +1,7 @@
 import ArtWork from "../models/artWork.js";
 import Report from "../models/report.js";
 import mongoose from 'mongoose';
+import fs from 'fs';
 import { User } from "../models/user.js";
 
 
@@ -20,9 +21,10 @@ export const allArtWorks = async (req, res) => {
 
 export const createArtWork = async (req, res) => {
     try {
-        const {title, description, type, price, isPremium} = req.body;
+        const {title, description, type, price} = req.body;
         const userID = req.userID;
 
+        const user = await User.findById(userID);
         const existing_art = await ArtWork.findOne({title});
         if (existing_art){
             return res.status(400).send("art by this title already exists")
@@ -30,17 +32,25 @@ export const createArtWork = async (req, res) => {
 
         const baseURL = `http://localhost:${process.env.PORT}`
         const images = []
-        req.files.arts.forEach((art) => {
-            const imagePath = `${baseURL}/public/images/${art.filename}`
-            images.push(imagePath)
-        });
+
+        for (const art of req.files.arts) {
+            if (!user.isSubscribed && art.size > 1024 * 1024) {
+                fs.unlink(art.path, (err) => {
+                    if (err) {
+                        console.error('Error deleting file:', err);
+                    }
+                });
+                return res.status(400).send('Non-premium users can only upload images up to 1MB');
+            }
+            const imagePath = `${baseURL}/public/images/${art.filename}`;
+            images.push(imagePath);
+        }
 
         let artWork = await ArtWork.create({
             title,
             description,
             type,
             price,
-            isPremium,
             images,
             creator:userID
         });
@@ -50,7 +60,7 @@ export const createArtWork = async (req, res) => {
         res.status(201).json(artWork);
 
     } catch (error) {
-        res.status(500).send(`error: ${error}`)
+        res.status(500).send(`error: ${error.message}`)
     }
 }
 
@@ -58,19 +68,28 @@ export const updateArtWork = async (req, res) => {
     try {
         const art = req.body;
         const artID = req.params.id;
+        const userID = req.userID;
 
         if (!mongoose.Types.ObjectId.isValid(artID)) {
             return res.status(400).send("Invalid ID");
         }
 
+        const user = await User.findById(userID);
+
         const baseURL = `http://localhost:${process.env.PORT}`;
         const images = [];
 
-        if (req.files && req.files.arts && req.files.arts.length > 0) {
-            req.files.arts.forEach((artFile) => {
-                const imagePath = `${baseURL}/public/images/${artFile.filename}`;
-                images.push(imagePath);
-            });
+        for (const art of req.files.arts) {
+            if (!user.isSubscribed && art.size > 1024 * 1024) {
+                fs.unlink(art.path, (err) => {
+                    if (err) {
+                        console.error('Error deleting file:', err);
+                    }
+                });
+                return res.status(400).send('Non-premium users can only upload images up to 1MB');
+            }
+            const imagePath = `${baseURL}/public/images/${art.filename}`;
+            images.push(imagePath);
         }
 
         const updatedArt = await ArtWork.findByIdAndUpdate(
@@ -141,7 +160,8 @@ export const search = async (req, res) => {
         const arts = await ArtWork.find(query)
         .populate('likes')
         .populate('comments')
-        .populate('creator');
+        .populate('creator')
+        .sort({ 'isPremium': -1, createdAt: -1 });
 
         res.status(200).json(arts);
 

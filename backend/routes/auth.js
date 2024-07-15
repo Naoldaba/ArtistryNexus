@@ -4,8 +4,6 @@ import { uploadSizeLimit } from '../middleware/fileSizeLimit.js';
 import upload from '../middleware/fileUpload.js';
 import passport from 'passport';
 
-console.log('secreting', process.env.SECRET_KEY);
-
 const router = express.Router();
 
 /**
@@ -58,22 +56,22 @@ router.post('/signin', signin);
  *           schema:
  *             type: object
  *             properties:
- *               firstName:
+ *               username:
  *                 type: string
- *                 description: User first name
- *               lastName:
+ *                 description: Username
+ *               fullName:
  *                 type: string
- *                 description: User last name
+ *                 description: full name
  *               email:
  *                 type: string
  *                 description: User email
  *               password:
  *                 type: string
  *                 description: User password
- *               profilePicture:
+ *               dateOfBirth:
  *                 type: string
- *                 format: binary
- *                 description: User profile picture
+ *                 format: date
+ *                 description: Date of birth in YYYY-MM-DD format
  *     responses:
  *       201:
  *         description: User signed up successfully

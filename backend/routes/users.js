@@ -53,18 +53,22 @@ router.patch('/follow/:id', auth, follow);
  *           schema:
  *             type: object
  *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Username
+ *               fullName:
+ *                 type: string
+ *                 description: full name
  *               password:
  *                 type: string
  *                 description: User's password
- *               firstName:
- *                 type: string
- *                 description: User's first name
- *               lastName:
- *                 type: string
- *                 description: User's last name
  *               bio:
  *                 type: string
  *                 description: User's bio
+ *               dateOfBirth:
+ *                 type: string
+ *                 format: date
+ *                 description: Date of birth in YYYY-MM-DD format
  *               profilePicture:
  *                 type: string
  *                 format: binary

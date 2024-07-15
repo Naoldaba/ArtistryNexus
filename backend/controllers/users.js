@@ -15,7 +15,6 @@ export const editProfile = async (req, res) => {
         if (!user){
             return res.status(400).json({message: "User not found"});
         }
-        console.log(profile)
         if (profile.password){
             profile.password = await bcyrpt.hash(profile.password, 12)
         }
@@ -26,7 +25,7 @@ export const editProfile = async (req, res) => {
             imagePath = `${baseURL}/public/images/${req.file.filename}`;
         }
 
-        const newUser = await User.findByIdAndUpdate(userID, {...profile, username:`${profile.firstName} ${profile.lastName}`, profilePicture:imagePath }, {new: true})
+        const newUser = await User.findByIdAndUpdate(userID, {...profile, profilePicture:imagePath }, {new: true})
         .populate('portfolio')
         .populate('following')
         .populate('followers');

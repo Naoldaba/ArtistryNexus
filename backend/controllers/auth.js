@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { User, userSignUpValidator, userSignInValidator } from '../models/user.js';
-// import { transporter } from '../config/nodemailerConfig.js';
 
 
 export const signup = async (req, res) => {
@@ -13,7 +12,7 @@ export const signup = async (req, res) => {
             return res.status(400).send(validatedResult.error.details[0].message)
         } 
 
-        const { firstName, lastName, email, password } = req.body;
+        const { username, fullName, email, password, dateOfBirth } = req.body;
         const existing_user = await User.findOne({email});
 
         if (existing_user) {
@@ -22,16 +21,8 @@ export const signup = async (req, res) => {
 
         const hashed_password = await bcrypt.hash(password, 12)
 
-        let user_profile;
-        if (req.file){
-            const baseURL = `http://localhost:${process.env.PORT}`;
-            const imagePath = `${baseURL}/public/images/${req.file.filename}`;
+        const user_profile = await User.create({email, password: hashed_password, username, fullName, dateOfBirth: Date(dateOfBirth)})
 
-            user_profile = await User.create({email, password: hashed_password, username: `${firstName} ${lastName}`, profilePicture: imagePath})
-        }else{
-            user_profile = await User.create({email, password: hashed_password, username: `${firstName} ${lastName}`})
-        }
-        
         const token = jwt.sign({id:user_profile._id, email:user_profile.email}, process.env.SECRET_KEY, {expiresIn: '24h'})
         return res.status(200).json({user: user_profile, token})
 
@@ -58,10 +49,16 @@ export const signin = async (req, res) => {
         if (!registered_user) {
             return res.status(400).json({"msg":"couldn't find user"})
         }
+
+        let isCorrect;
+        if (!registered_user.googleId){
+            isCorrect = await bcrypt.compare(password, registered_user.password)
+        }else if (!registered_user.password){
+            return res.status(404).send("Try signing in with google")
+        }
         
-        const isCorrect = await bcrypt.compare(password, registered_user.password)
         if (!isCorrect) {
-            return res.status(401).json({"msg":"password mismatch"})
+            return res.status(401).json({"msg":"password or email is not correct"})
         }
 
         const token = jwt.sign({id:registered_user._id, email}, process.env.SECRET_KEY, {expiresIn: '24h'});

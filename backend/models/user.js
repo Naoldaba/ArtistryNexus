@@ -8,12 +8,19 @@ const userSchema = mongoose.Schema({
         type: String, 
         required:true
     },
+    fullName: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true,
     },
     password: {
         type: String,
+    },
+    dateOfBirth:{
+        type:Date,
     },
     isSubscribed: {
         type: Boolean,
@@ -59,9 +66,10 @@ export const User = mongoose.model('User', userSchema);
 
 export const userSignUpValidator = (user) => {
     const userSchema = Joi.object({
-        firstName:Joi.string().required().min(5).max(15),
-        lastName:Joi.string().required().min(5).max(15),
+        username: Joi.string().required().min(4).max(10),
+        fullName: Joi.string().required().min(5).max(15),
         email: Joi.string().required().min(5).max(255).email(),
+        dateOfBirth:Joi.string().required(),
         password: joiPassword.string()
                 .minOfLowercase(1)
                 .minOfUppercase(1)
@@ -87,9 +95,10 @@ export const userSignInValidator = (user) => {
 
 export const editProfileValidator = (profile)=>{
     const userSchema = Joi.object({
-        firstName:Joi.string().min(5).max(15).optional(),
-        lastName:Joi.string().min(5).max(15).optional(),
+        username: Joi.string().optional().min(4).max(10),
+        fullName: Joi.string().optional().min(5).max(15),
         bio:Joi.string().optional(),
+        dateOfBirth: Joi.string().optional(),
         password: joiPassword.string()
             .minOfLowercase(1)
             .minOfUppercase(1)

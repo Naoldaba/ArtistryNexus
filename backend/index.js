@@ -14,6 +14,7 @@ import passport from 'passport';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import errorHandler from './middleware/errorHandler.js';
+import subscriptionRoutes from './routes/subscription.js';
 
 dotenv.config();
 
@@ -54,12 +55,12 @@ app.use('/public', express.static(path.join(__dirname, "public")));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/artwork', artworkRoutes);
+app.use('/subscribe', subscriptionRoutes);
 
 //third-party auth test route
 app.get('/authenticate', (req, res)=>{
     res.send('<a href="/auth/google">authenticate with google</a>')
 })
 
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use(errorHandler);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

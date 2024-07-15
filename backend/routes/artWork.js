@@ -5,7 +5,6 @@ import {createArtWork, search, myArtWork, updateArtWork, deleteArtWork, like, re
 import { createComment, deleteComment, editComment } from '../controllers/comment.js';
 
 
-console.log("port", process.env.PORT)
 const router = express.Router();
 
 /**
@@ -52,8 +51,6 @@ router.get('/all', allArtWorks);
  *                 type: string
  *               price:
  *                 type: number
- *               isPremium:
- *                 type: boolean
  *               arts:
  *                 type: array
  *                 items:
@@ -133,8 +130,6 @@ router.get('/my_artwork', auth, myArtWork);
  *                 type: string
  *               price:
  *                 type: number
- *               isPremium:
- *                 type: boolean
  *               arts:
  *                 type: array
  *                 items:
