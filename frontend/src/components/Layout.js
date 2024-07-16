@@ -7,7 +7,7 @@ const Layout = () => {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Navbar />
-      <Box component="main" sx={{flexGrow: '1', backgroundColor: '', color: 'white'}} >
+      <Box component="main" sx={{flexGrow: '1', backgroundColor: 'white'}} >
         <Outlet />
       </Box>
       <Footer />

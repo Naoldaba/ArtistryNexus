@@ -15,9 +15,12 @@ const authSlice = createSlice({
       state.token = null;
       state.status = 'idle';
       state.error = null;
+      localStorage.removeItem('user')
+      localStorage.removeItem('token')
+
     },
     initializeUser: (state) => {
-      const user = localStorage.getItem('user');
+      const user = JSON.parse(localStorage.getItem('user'));
       const token = localStorage.getItem('token');
       if (user) {
         state.user = user;
@@ -32,10 +35,11 @@ const authSlice = createSlice({
       })
       .addCase(signupUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user.username;
+        state.user = action.payload.user;
         state.token = action.payload.token
         localStorage.setItem("token", state.token)
-        localStorage.setItem("user", state.user)
+        localStorage.setItem("user", JSON.stringify(state.user))
+
       })
       .addCase(signupUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -46,10 +50,10 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.user = action.payload.user.username;
+        state.user = action.payload.user;
         state.token = action.payload.token
         localStorage.setItem("token", state.token)
-        localStorage.setItem("user", state.user)
+        localStorage.setItem("user", JSON.stringify(state.user))
         
       })
       .addCase(loginUser.rejected, (state, action) => {

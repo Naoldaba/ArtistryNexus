@@ -7,7 +7,8 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import logo from '../resources/images/artistryNexusLogo.png'
 
 const FooterContainer = styled(Box)({
-  background: 'linear-gradient(to top, #292a2b, #434343)',
+  background: 'linear-gradient(to top, #1a1a1a, #292a2b)',
+  // background: '#1a1a1a',
   color: '#fff',
   padding: '16px 0',
   marginTop: 'auto',

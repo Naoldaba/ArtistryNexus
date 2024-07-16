@@ -16,9 +16,9 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import {AccountCircle, Logout} from '@mui/icons-material';
+import {AccountCircle, Logout, Add} from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
+import { Avatar, Box, Typography } from '@mui/material';
 import logo from '../resources/images/artistryNexusLogo.png'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,7 +66,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const StyledAppBar = styled(AppBar)({
-  backgroundColor: 'black',
+  backgroundColor: '#333333',
   elevation: 0,
 });
 
@@ -114,7 +114,7 @@ const Navbar = () => {
         onClick={() => navigate('/')}
         sx={{
           '&:hover': {
-            backgroundColor: 'grey', // Hover background color
+            backgroundColor: 'grey', 
           },
         }}
       >
@@ -126,7 +126,7 @@ const Navbar = () => {
         onClick={() => navigate('/contact')}
         sx={{
           '&:hover': {
-            backgroundColor: 'grey', // Hover background color
+            backgroundColor: 'grey', 
           },
         }}
       >
@@ -138,7 +138,7 @@ const Navbar = () => {
         onClick={() => navigate('/about')}
         sx={{
           '&:hover': {
-            backgroundColor: 'grey', // Hover background color
+            backgroundColor: 'grey',
           },
         }}
       >
@@ -146,20 +146,20 @@ const Navbar = () => {
         <ListItemText primary="About" style={{ color: 'white' }} />
       </ListItemButton>
       <Divider style={{ backgroundColor: 'gray' }} />
-      <ListItemButton
+      { token && <ListItemButton
         onClick={() => {
           dispatch(logout());
           navigate('/');
         }}
         sx={{
           '&:hover': {
-            backgroundColor: 'grey', // Hover background color
+            backgroundColor: 'grey',
           },
         }}
       >
         <ListItemIcon><Logout style={{ color: 'white' }} /></ListItemIcon>
         <ListItemText primary="Logout" style={{ color: 'white' }} />
-      </ListItemButton>
+      </ListItemButton>}
     </List>
   </Box>
   )
@@ -186,7 +186,18 @@ const Navbar = () => {
             alt={"logo"}
             src={logo}
             />
-            <Typography variant="h5" sx={{mr: '30px', color:"purple"}}>Artistry Nexus</Typography>
+            <Typography
+      variant="h5"
+      sx={{
+        mr: '30px',
+        background: 'linear-gradient(to bottom, purple, white)',
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+      }}
+    >
+      Artistry Nexus
+    </Typography>
+            {/* <Typography variant="h5" sx={{mr: '30px', color:"linear-gradient(toTop, puple, white)"}}>Artistry Nexus</Typography> */}
           <StyledButton color="inherit">Shop</StyledButton>
           <Search>
             <SearchIconWrapper>
@@ -198,17 +209,28 @@ const Navbar = () => {
             />
           </Search>
           <div style={{ flexGrow: 1 }} />
+
+         
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            onClick={() => navigate('/post')}
+            sx={{ backgroundColor: 'purple', '&:hover': { backgroundColor: 'purple'} }}
+          >
+            Post
+          </Button>
           
           {!token && <StyledButton onClick={() => navigate('/signup')} color="inherit">Sign Up</StyledButton> }
           {!token && <StyledButton onClick={() => navigate('/login')} color="inherit">Login</StyledButton>}
-          {token && <StyledTypo color='white' >{user}</StyledTypo> }
-          <IconButton
+          {token && <StyledTypo onClick={() => navigate('/profile')} color='white' >{user.username}</StyledTypo> }
+          {token && <IconButton
             edge="end"
             color="inherit"
+            onClick={() => navigate('/profile')}
             sx={{ marginLeft: 2 }}
           >
             <AccountCircle />
-          </IconButton>
+          </IconButton>}
         </Toolbar>
       </StyledAppBar>
       <StyledDrawer
