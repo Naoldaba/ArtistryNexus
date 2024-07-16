@@ -10,6 +10,7 @@ import { initializeUser } from './reducers/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import ProfilePage from './pages/Profile';
+import Post from './pages/Post';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,9 +29,11 @@ function App() {
         <Route element={<Layout />}> 
             <Route path='/' element={<Home />} />
             { token && 
-              <Route>
+              <>
                 <Route path='/profile' element={<ProfilePage />} />
-              </Route>
+                <Route path='/post' element={<Post />} />
+
+              </>
                 
               }
 

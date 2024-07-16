@@ -7,13 +7,18 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
+import Portfolio from './Portfolio';
+// import ArtCard from './ArtCard';
+import BasicCard from './ArtCard';
 
 const TabContent = ({ value }) => {
   switch (value) {
     case 0:
-      return <Typography>My posts</Typography>;
+      return <Portfolio  />
     case 1:
-      return <Typography>Favorites</Typography>;
+      return <Typography>Gallery</Typography>;;
+    case 2: 
+      return <Typography>Gallery</Typography>; 
 
   }
 };
@@ -46,8 +51,10 @@ const TabSelector = () => {
             },
           }}
         >
-          <Tab label="Gallery" />
+          <Tab label="Portfolio" />
           <Tab label="Favorites" />
+          <Tab label="Gallery" />
+
         </Tabs>
       <Box sx={{ p: 3 }}>
         <TabContent value={value} />

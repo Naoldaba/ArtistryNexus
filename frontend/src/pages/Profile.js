@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Container, Box, Typography, Card, CardContent, Avatar, Button, IconButton, TextField } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Edit, PhotoCamera, Report, Block } from '@mui/icons-material';
@@ -6,12 +5,16 @@ import TabSelector from '../components/TabSelector';
 
 import { Add } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react"
+import { getPortfolio } from "../actions/post"
+
 const ProfilePage = () => {
   const [tabValue, setTabValue] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
   const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {artPieces, isLoading, error} = useSelector((state) => state.post)
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue);
@@ -30,6 +33,17 @@ const ProfilePage = () => {
 
   const handleBlockUser = () => {
   };
+
+  useEffect(() => {
+
+    console.log("arts ", artPieces)
+    console.log("ehy")
+
+    if(!artPieces && !isLoading && !error){
+        dispatch(getPortfolio())  
+    }
+
+}, [isLoading])
 
   return (
     <Container>
