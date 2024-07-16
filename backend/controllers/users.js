@@ -137,3 +137,18 @@ export const blockUser = async (req, res) => {
         res.status(400).json({message: "Internal server error"});
     }
 }
+
+export const myProfile = async (req, res)=>{
+    try {
+        const userID = req.userID;
+        const user = await User.findById(userID);
+        if (!user){
+            return res.status(404).send("User not found");
+        }
+
+        return res.status(200).json({user})
+
+    } catch (error) {
+        return res.status(500).send("Internal server error")
+    }
+}

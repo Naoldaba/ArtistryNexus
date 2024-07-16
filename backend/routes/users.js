@@ -1,4 +1,4 @@
-import { follow, deleteProfile, editProfile, blockUser } from '../controllers/users.js';
+import { follow, deleteProfile, editProfile, blockUser, myProfile } from '../controllers/users.js';
 import auth from '../middleware/auth.js';
 import express from 'express';
 import upload from '../middleware/fileUpload.js';
@@ -90,6 +90,35 @@ router.patch('/follow/:id', auth, follow);
  *         description: Internal server error
  */
 router.patch('/edit_profile', auth, upload.single('profilePicture'), editProfile);
+
+/**
+ * @swagger
+ * /user/my_profile:
+ *   get:
+ *     summary: Get the profile of the logged-in user
+ *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved user profile
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 user:
+ *                   type: object
+ *                   description: The updated user object
+ *               
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
+router.get('/my_profile',auth, myProfile);
+
 
 /**
  * @swagger
