@@ -7,7 +7,7 @@ import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
@@ -16,11 +16,13 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 import InfoIcon from '@mui/icons-material/Info';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import {AccountCircle, Logout} from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
 import logo from '../resources/images/artistryNexusLogo.png'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../reducers/auth';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -77,6 +79,14 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+const StyledTypo = styled(Typography)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  color: 'white',
+  '&:hover': {
+    color: 'purple',
+    backgroundColor: 'transparent',
+  },
+}));
 const StyledDrawer = styled(Drawer)({
   '& .MuiDrawer-paper': {
     backgroundColor: 'black',
@@ -90,6 +100,8 @@ const StyledDrawer = styled(Drawer)({
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const navigate = useNavigate()
+  const {user, token} = useSelector((state) => state.auth)
+  const dispatch = useDispatch()
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -98,20 +110,56 @@ const Navbar = () => {
   const drawer = (
     <Box>
     <List>
-      <ListItem button>
+      <ListItemButton
+        onClick={() => navigate('/')}
+        sx={{
+          '&:hover': {
+            backgroundColor: 'grey', // Hover background color
+          },
+        }}
+      >
         <ListItemIcon><HomeIcon style={{ color: 'white' }} /></ListItemIcon>
         <ListItemText primary="Home" style={{ color: 'white' }} />
-      </ListItem>
+      </ListItemButton>
       <Divider style={{ backgroundColor: 'gray' }} />
-      <ListItem button>
+      <ListItemButton
+        onClick={() => navigate('/contact')}
+        sx={{
+          '&:hover': {
+            backgroundColor: 'grey', // Hover background color
+          },
+        }}
+      >
         <ListItemIcon><ContactMailIcon style={{ color: 'white' }} /></ListItemIcon>
         <ListItemText primary="Contact Us" style={{ color: 'white' }} />
-      </ListItem>
+      </ListItemButton>
       <Divider style={{ backgroundColor: 'gray' }} />
-      <ListItem button>
+      <ListItemButton
+        onClick={() => navigate('/about')}
+        sx={{
+          '&:hover': {
+            backgroundColor: 'grey', // Hover background color
+          },
+        }}
+      >
         <ListItemIcon><InfoIcon style={{ color: 'white' }} /></ListItemIcon>
         <ListItemText primary="About" style={{ color: 'white' }} />
-      </ListItem>
+      </ListItemButton>
+      <Divider style={{ backgroundColor: 'gray' }} />
+      <ListItemButton
+        onClick={() => {
+          dispatch(logout());
+          navigate('/');
+        }}
+        sx={{
+          '&:hover': {
+            backgroundColor: 'grey', // Hover background color
+          },
+        }}
+      >
+        <ListItemIcon><Logout style={{ color: 'white' }} /></ListItemIcon>
+        <ListItemText primary="Logout" style={{ color: 'white' }} />
+      </ListItemButton>
     </List>
   </Box>
   )
@@ -150,8 +198,10 @@ const Navbar = () => {
             />
           </Search>
           <div style={{ flexGrow: 1 }} />
-          <StyledButton onClick={() => navigate('/signup')} color="inherit">Sign Up</StyledButton>
-          <StyledButton onClick={() => navigate('/login')} color="inherit">Login</StyledButton>
+          
+          {!token && <StyledButton onClick={() => navigate('/signup')} color="inherit">Sign Up</StyledButton> }
+          {!token && <StyledButton onClick={() => navigate('/login')} color="inherit">Login</StyledButton>}
+          {token && <StyledTypo color='white' >{user}</StyledTypo> }
           <IconButton
             edge="end"
             color="inherit"

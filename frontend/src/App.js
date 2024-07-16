@@ -6,8 +6,17 @@ import Layout from './components/Layout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Landing from './pages/Landing';
+import { initializeUser } from './reducers/auth';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(initializeUser());
+  }, [dispatch]);
+
   return (
     <Router>
       <Routes>

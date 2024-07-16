@@ -13,6 +13,10 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import background2 from '../resources/images/890fb685-2052-499e-8644-10b521761155.jpeg';
 import background from '../resources/images/d4859d96-3f95-493a-9bd1-d96778ba43f0.jpeg';
+import { signupUser } from '../actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from '@mui/material';
+
 
 const BackgroundImage = styled(Box)({
   backgroundImage: `url('${background2}')`,
@@ -54,13 +58,15 @@ const FormSection = styled(Box)(({ theme }) => ({
 const Signup = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
+  const { status, error, token} = useSelector((state) => state.auth);
+  const dispatch = useDispatch()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
     username: '',
-    dob: '',
+    dateOfBirth: '',
   });
 
   const steps = ['Account Details', 'Personal Information'];
@@ -78,11 +84,12 @@ const Signup = () => {
         alert('Passwords do not match');
       }
     } else {
-      console.log(formData);
-      alert('Form submitted');
+      const {confirmPassword, ...other } = formData
+      dispatch(signupUser(other))
+      
     }
   };
-
+ 
   const handleBack = () => {
     setStep((prevStep) => prevStep - 1);
   };
@@ -102,6 +109,7 @@ const Signup = () => {
           </Typography>
         </ImageSection>
         <FormSection>
+            
           <Typography variant="h4">Sign Up</Typography>
           <Stepper activeStep={step} alternativeLabel sx={{ mt: 2, mb: 2 }}>
                 {steps.map((label) => (
@@ -261,8 +269,8 @@ const Signup = () => {
                   margin="normal"
                   variant="outlined"
                   type="date"
-                  name="dob"
-                  value={formData.dob}
+                  name="dateOfBirth"
+                  value={formData.dateOfBirth}
                   onChange={handleChange}
                   required
                   InputProps={{
@@ -311,6 +319,9 @@ const Signup = () => {
               >
                 {step === 0 ? 'Next' : 'Sign Up'}
               </Button>
+              {status === 'loading' && <Typography>Loading...</Typography>}
+              {error && <Alert severity="error" sx={{ mt: 2 }}>{error.msg || 'Login failed'}</Alert>}
+          
               
             </Box>
             
