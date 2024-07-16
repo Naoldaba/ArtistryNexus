@@ -29,7 +29,8 @@ const images = [
 const Home = () => {
     return (
         <Container>
-           <Typography variant="h1" color="initial">Art</Typography>
+           <Typography variant="h1" color="white">Art</Typography>
+
            {/* <Box sx={{ flexGrow: 1, padding: 2 }}>
             <Grid container spacing={2}>
                 {images.map((src, index) => (
