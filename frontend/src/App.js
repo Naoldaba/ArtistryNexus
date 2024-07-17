@@ -12,6 +12,7 @@ import ProfilePage from './pages/Profile';
 import Post from './pages/Post';
 import ArtDetailsPage from './pages/ArtDetails';
 import SearchResults from './pages/SearchResults';
+import Shop from './pages/Shop';
 
 function App() {
   const dispatch = useDispatch();
@@ -32,13 +33,14 @@ function App() {
         <Route element={<Layout />}> 
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<SearchResults />} />
-
+            <Route path='/shop' element={<Shop />} />
 
             { token && 
               <>
                 <Route path='/profile' element={<ProfilePage />} />
                 <Route path='/post' element={<Post />} />
                 <Route path='/art-details' element={<ArtDetailsPage />} />
+
 
 
               </>
