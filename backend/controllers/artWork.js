@@ -57,6 +57,10 @@ export const createArtWork = async (req, res) => {
 
         artWork = await ArtWork.findById(artWork._id).populate('creator');
 
+        const portfolio = user.portfolio;
+        portfolio.push(artWork._id);
+
+        await User.findByIdAndUpdate(userID, {portfolio}, {new: true})
         res.status(201).json(artWork);
 
     } catch (error) {
@@ -112,16 +116,23 @@ export const updateArtWork = async (req, res) => {
 
 export const deleteArtWork = async (req, res) => {
     try {
+        const userID = req.userID;
         const artID = req.params.id;
+
+        const user = await User.findById(userID);
 
         if (!mongoose.Types.ObjectId.isValid(artID)) {
             return res.status(400).send("invalid ID")
         }
+        
         const deletedArt = await ArtWork.findByIdAndDelete(artID);
 
         if (!deletedArt){
             return res.status(404).send("art doesn't exist");
         };
+
+        const portfolio = user.portfolio.filter(id => id.toString() !== artID);
+        await User.findByIdAndUpdate(userID, {portfolio}, {new: true})
 
         res.status(204).json({});
     } catch (error) {
