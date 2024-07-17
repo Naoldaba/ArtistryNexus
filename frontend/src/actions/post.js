@@ -36,3 +36,25 @@ export const getPortfolio = createAsyncThunk(
       }
     }
   );
+
+
+  export const commentArt = createAsyncThunk(
+    'post/commentArt',
+    async (comment, artId, thunkAPI) => {
+  
+      try {
+        console.log("post comment", comment, artId)
+        const response = await api.post(`/artwork/${artId}`, comment,{
+            headers: {
+                'Content-Type': 'multipart/form-data',
+              },
+        });
+
+        console.log("res post", response)
+        
+        return response.data;
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.response ? error.response.data.message : error.message);
+      }
+    }
+  );

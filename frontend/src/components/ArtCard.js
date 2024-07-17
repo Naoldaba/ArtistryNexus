@@ -57,10 +57,20 @@
 
 
 import React from 'react';
-import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
+import { Card, CardContent, CardActions, Typography, Grid, Box, Button } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { selectArt } from '../reducers/post';
 
 const ArtCard = ({ artPiece }) => {
   const { title, description, type, price, images } = artPiece;
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleDetails = () => {
+      dispatch(selectArt(artPiece))
+      navigate('/art-details', {state: artPiece})
+  } 
 
   return (
     <Card sx={{ display: 'flex', maxWidth: 800, m: 2, borderRadius: 3, boxShadow: 3 }}>
@@ -84,7 +94,7 @@ const ArtCard = ({ artPiece }) => {
               {title}
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-              Type: {type}
+              {type}
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
               {description}
@@ -92,6 +102,9 @@ const ArtCard = ({ artPiece }) => {
             <Typography variant="h6" component="div" sx={{ mt: 2, color: 'purple' }}>
               ${price}
             </Typography>
+            <Button variant="text" onClick={handleDetails}  sx={{color: 'purple', ml: 'auto'}}>
+              more
+            </Button>
           </CardContent>
         </Grid>
       </Grid>

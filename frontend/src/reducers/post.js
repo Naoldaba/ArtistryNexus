@@ -3,6 +3,7 @@ import { postArt, getPortfolio } from '../actions/post';
 const initialState = {
   isLoading: false,
   artPieces: null,
+  currArt: null,
   error: null,
 };
 
@@ -15,6 +16,9 @@ const postSlice = createSlice({
       state.isLoading = false;
       state.error = null;
     },
+    selectArt(state, action){
+      state.currArt = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -45,5 +49,5 @@ const postSlice = createSlice({
   },
 });
 
-export const { resetPostStatus } = postSlice.actions;
+export const { resetPostStatus, selectArt } = postSlice.actions;
 export default postSlice.reducer;

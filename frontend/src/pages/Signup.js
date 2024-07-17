@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Card,
@@ -73,6 +73,7 @@ const Signup = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -86,9 +87,16 @@ const Signup = () => {
     } else {
       const {confirmPassword, ...other } = formData
       dispatch(signupUser(other))
-      
+           
     }
   };
+
+
+  useEffect(() => {
+    if(token){
+      navigate('/profile')
+    } 
+  })
  
   const handleBack = () => {
     setStep((prevStep) => prevStep - 1);
@@ -319,11 +327,12 @@ const Signup = () => {
               >
                 {step === 0 ? 'Next' : 'Sign Up'}
               </Button>
-              {status === 'loading' && <Typography>Loading...</Typography>}
-              {error && <Alert severity="error" sx={{ mt: 2 }}>{error.msg || 'Login failed'}</Alert>}
-          
+              
               
             </Box>
+            {status === 'loading' && <Typography>Loading...</Typography>}
+              {error && <Alert severity="error" sx={{ mt: 2 }}>{error || 'Signup failed'}</Alert>}
+          
             
           </form>
           <Box mt={2} textAlign="center">
@@ -336,7 +345,7 @@ const Signup = () => {
               >
                 Login
               </Button>
-            </Typography>
+            </Typography>Login
           </Box>
           <Box mt={2} textAlign="center">
             <Typography variant="caption">

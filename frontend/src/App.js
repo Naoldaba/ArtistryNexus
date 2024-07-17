@@ -5,12 +5,12 @@ import Navbar from './components/Navbar';
 import Layout from './components/Layout';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
-import Landing from './pages/Landing';
 import { initializeUser } from './reducers/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import ProfilePage from './pages/Profile';
 import Post from './pages/Post';
+import ArtDetailsPage from './pages/ArtDetails';
 
 function App() {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     dispatch(initializeUser());
-  }, [dispatch]);
+  }, []);
 
   return (
     <Router>
@@ -32,6 +32,8 @@ function App() {
               <>
                 <Route path='/profile' element={<ProfilePage />} />
                 <Route path='/post' element={<Post />} />
+                <Route path='/art-details' element={<ArtDetailsPage />} />
+
 
               </>
                 
