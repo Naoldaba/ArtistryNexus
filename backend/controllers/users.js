@@ -86,7 +86,7 @@ export const follow = async (req, res) => {
         } else {
             artist.followers = artist.followers.filter(id => id.toString() !== userID);
         }
-
+        
         const followingUser = await User.findByIdAndUpdate(userID, {following: user.following}, {new: true})
         .populate('portfolio')
         .populate('following')
@@ -141,7 +141,10 @@ export const blockUser = async (req, res) => {
 export const myProfile = async (req, res)=>{
     try {
         const userID = req.userID;
-        const user = await User.findById(userID);
+        const user = await User.findById(userID)
+        .populate('portfolio')
+        .populate('following')
+        .populate('followers');;
         if (!user){
             return res.status(404).send("User not found");
         }
