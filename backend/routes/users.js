@@ -1,4 +1,4 @@
-import { follow, deleteProfile, editProfile, blockUser, myProfile } from '../controllers/users.js';
+import { follow, deleteProfile, editProfile, blockUser, myProfile, searchUser } from '../controllers/users.js';
 import auth from '../middleware/auth.js';
 import express from 'express';
 import upload from '../middleware/fileUpload.js';
@@ -119,6 +119,34 @@ router.patch('/edit_profile', auth, upload.single('profilePicture'), editProfile
 
 router.get('/my_profile',auth, myProfile);
 
+/**
+ * @swagger
+ * /user/search:
+ *   get:
+ *     summary: Search users by username
+ *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: username
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Username to search for. Case insensitive search using regex.
+ *     responses:
+ *       200:
+ *         description: A list of users matching the search criteria
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       400:
+ *         description: Invalid request, missing username query parameter
+ *       404:
+ *         description: No users found matching the search criteria
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/search', searchUser);
 
 /**
  * @swagger

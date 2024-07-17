@@ -1,6 +1,5 @@
 import express from 'express';
 import { forgotPassword, googleAuth, resetPassword, signin, signup, verifyOTP } from '../controllers/auth.js';
-import { uploadSizeLimit } from '../middleware/fileSizeLimit.js';
 import upload from '../middleware/fileUpload.js';
 import passport from 'passport';
 
@@ -80,7 +79,7 @@ router.post('/signin', signin);
  *       500:
  *         description: Internal server error
  */
-router.post('/signup', uploadSizeLimit, upload.single('profilePicture'), signup);
+router.post('/signup', upload.single('profilePicture'), signup);
 
 
 /**

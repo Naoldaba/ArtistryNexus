@@ -152,3 +152,25 @@ export const myProfile = async (req, res)=>{
         return res.status(500).send("Internal server error")
     }
 }
+
+export const searchUser = async (req, res) => {
+    try {
+        const {username} = req.query;
+        let query = {};
+
+        if (username && username != 'none'){
+            query.username = new RegExp(`.*${username}.*`, "i");
+        }
+
+        const users = await User.find(query)
+        .populate('portfolio')
+        .populate('following')
+        .populate('followers')
+        .sort({ 'isSubscribed': -1, createdAt: -1 });
+
+        res.status(200).json(users);
+
+    } catch (error) {
+        res.status(500).send("internal server error");
+    }
+}
