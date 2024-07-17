@@ -11,23 +11,25 @@ import Portfolio from './Portfolio';
 // import ArtCard from './ArtCard';
 import BasicCard from './ArtCard';
 
-const TabContent = ({ value }) => {
-  switch (value) {
-    case 0:
-      return <Portfolio  />
-    case 1:
-      return <Typography>Gallery</Typography>;;
-    case 2: 
-      return <Typography>Gallery</Typography>; 
 
-  }
-};
 
-const TabSelector = () => {
+const TabSelector = ({portfolio}) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const TabContent = ({ value }) => {
+    switch (value) {
+      case 0:
+        return <Portfolio artPieces={portfolio} />
+      case 1:
+        return <Typography>Gallery</Typography>;;
+      case 2: 
+        return <Typography>Gallery</Typography>; 
+  
+    }
   };
 
   return (

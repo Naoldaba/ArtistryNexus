@@ -11,10 +11,12 @@ import { useEffect } from 'react';
 import ProfilePage from './pages/Profile';
 import Post from './pages/Post';
 import ArtDetailsPage from './pages/ArtDetails';
+import SearchResults from './pages/SearchResults';
 
 function App() {
   const dispatch = useDispatch();
   const {token} = useSelector((state) => state.auth)
+  const {selectedUser} = useSelector((state) => state.search)
 
   useEffect(() => {
     dispatch(initializeUser());
@@ -26,8 +28,12 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
 
+
         <Route element={<Layout />}> 
             <Route path='/' element={<Home />} />
+            <Route path='/search' element={<SearchResults />} />
+
+
             { token && 
               <>
                 <Route path='/profile' element={<ProfilePage />} />
