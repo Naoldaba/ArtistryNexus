@@ -14,10 +14,13 @@ const searchSlice = createSlice({
     setSelectedUser: (state, action) => {
       state.selectedUser = action.payload;
     },
+    clearSelectedUser: (state, action) => {
+      state.selectedUser = null;
+    },
   },
 });
 
-export const { setSearchResults, setSelectedUser } = searchSlice.actions;
+export const { setSearchResults, setSelectedUser, clearSelectedUser } = searchSlice.actions;
 
 
 

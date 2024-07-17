@@ -293,6 +293,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/auth';
 import { searchUsers } from '../actions/search';
+import { clearSelectedUser } from '../reducers/search';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -367,6 +368,7 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
   const { user, token } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
 
   const toggleDrawer = () => {
@@ -375,7 +377,6 @@ const Navbar = () => {
 
   const handleSearch = () => {
     navigate('/search');
-    alert(searchQuery)
     dispatch(searchUsers(searchQuery));
   };
 
@@ -500,6 +501,7 @@ const Navbar = () => {
             variant="contained"
             startIcon={<Add />}
             onClick={() => navigate('/post')}
+            
             sx={{ backgroundColor: 'purple', '&:hover': { backgroundColor: 'purple' } }}
           >
             Post
@@ -516,13 +518,17 @@ const Navbar = () => {
           )}
           {token && (
             <>
-              <StyledTypo onClick={() => navigate('/profile')} color="white">
+              <StyledTypo onClick={() => {
+                dispatch(clearSelectedUser)
+                navigate('/profile', {replace:true})
+              }} color="white">
                 {user.username}
               </StyledTypo>
               <IconButton
                 edge="end"
                 color="inherit"
-                onClick={() => navigate('/profile')}
+                href='/profile'
+                
                 sx={{ marginLeft: 2 }}
               >
                 <AccountCircle />
