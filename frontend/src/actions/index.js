@@ -1,6 +1,6 @@
 import { ApiTwoTone } from '@mui/icons-material';
 import axios from 'axios';
-const api = axios.create({baseURL : 'http://localhost:5000'});
+const api = axios.create({baseURL : 'https://artistry-nexus-server-i5r34lcfz-naoldabas-projects.vercel.app'});
 
 api.interceptors.request.use((req)=>{
     if (localStorage.getItem('token')){
