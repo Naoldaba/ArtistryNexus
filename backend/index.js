@@ -50,7 +50,7 @@ mongoose.connect(process.env.CONNECTION_URL)
 
 app.use(express.json())
 app.use(cors())
-console.log('hi')
+
 app.use('/public', express.static(path.join(__dirname, "public")));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
