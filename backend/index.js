@@ -50,7 +50,7 @@ mongoose.connect(process.env.CONNECTION_URL)
 
 app.use(express.json())
 app.use(cors())
-
+console.log('hi')
 app.use('/public', express.static(path.join(__dirname, "public")));
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
@@ -64,3 +64,5 @@ app.get('/authenticate', (req, res)=>{
 
 app.use(errorHandler);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
+export default app;

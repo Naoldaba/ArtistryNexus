@@ -62,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const StyledAppBar = styled(AppBar)({
-  backgroundColor: '#333333',
+  backgroundColor: '#000000',
   elevation: 0,
 });
 
