@@ -30,7 +30,6 @@ export const createArtWork = async (req, res) => {
             return res.status(400).send("art by this title already exists")
         }
 
-        const baseURL = `http://localhost:${process.env.PORT}`
         const images = []
 
         for (const art of req.files.arts) {
@@ -42,7 +41,7 @@ export const createArtWork = async (req, res) => {
                 });
                 return res.status(400).send('Non-premium users can only upload images up to 1MB');
             }
-            const imagePath = `${baseURL}/public/images/${art.filename}`;
+            const imagePath = art.path;
             images.push(imagePath);
         }
 
@@ -80,7 +79,6 @@ export const updateArtWork = async (req, res) => {
 
         const user = await User.findById(userID);
 
-        const baseURL = `http://localhost:${process.env.PORT}`;
         const images = [];
 
         for (const art of req.files.arts) {
@@ -92,7 +90,7 @@ export const updateArtWork = async (req, res) => {
                 });
                 return res.status(400).send('Non-premium users can only upload images up to 1MB');
             }
-            const imagePath = `${baseURL}/public/images/${art.filename}`;
+            const imagePath = art.path;
             images.push(imagePath);
         }
 

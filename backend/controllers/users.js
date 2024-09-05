@@ -21,8 +21,7 @@ export const editProfile = async (req, res) => {
         
         let imagePath;
         if (req.file){
-            const baseURL = `http://localhost:${process.env.PORT}`;
-            imagePath = `${baseURL}/public/images/${req.file.filename}`;
+            imagePath = req.file.path;
         }
 
         const newUser = await User.findByIdAndUpdate(userID, {...profile, profilePicture:imagePath }, {new: true})
